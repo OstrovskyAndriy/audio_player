@@ -35,6 +35,8 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+signals:
+    void nextClicked();
 
 private slots:
     void on_Add_clicked();
@@ -43,6 +45,9 @@ private slots:
 
     void playMusic();
     void stopMusic();
+    void muteMusic();
+    void unmuteMusic();
+
     void playSong(QString songUrl);
 
     void on_volumeSlider_sliderMoved();

@@ -9,12 +9,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->tableViewAudio->setSelectionMode(QAbstractItemView::NoSelection);
     ui->tableViewAudio->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    this->setFixedSize(this->geometry().width(),this->geometry().height());
 
 
     connect(ui->playAndStopSong, &QPushButton::clicked,this, &MainWindow::playMusic);
+    connect(ui->muteButton,&QPushButton::clicked,this,&MainWindow::muteMusic);
     connect(ui->musicSlider, &QSlider::sliderMoved, this, &MainWindow::seek);
 
-
+    connect(this,&MainWindow::nextClicked,this,&MainWindow::on_nextSong_clicked);
 
     dbManager.createAudioDB();
 
@@ -25,9 +27,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     vievOfTable();
 
-    //qDebug("create table");
-
-
     player = new QMediaPlayer(this);
     audioOutput = new QAudioOutput;
     player->setAudioOutput(audioOutput);
@@ -35,7 +34,6 @@ MainWindow::MainWindow(QWidget *parent)
     connect(player,&QMediaPlayer::positionChanged,this,&MainWindow::onPositionChanged);
     connect(player,&QMediaPlayer::durationChanged,this,&MainWindow::onDurationChanged);
 
-    //регулювання гучності
     ui->volumeSlider->setSliderPosition(50);
     ui->volumeSlider->setRange(0,100);
     ui->songTime->setText("");
@@ -83,7 +81,6 @@ void MainWindow::on_Add_clicked()
         errorMsg.exec();
     }
 
-
     vievOfTable();
 
     songIndex=ui->tableViewAudio->model()->columnCount();
@@ -117,6 +114,24 @@ void MainWindow::stopMusic()
 
     disconnect(ui->playAndStopSong, &QPushButton::clicked, this, &MainWindow::stopMusic);
     connect(ui->playAndStopSong, &QPushButton::clicked, this, &MainWindow::playMusic);
+}
+
+
+void MainWindow::muteMusic()
+{
+    audioOutput->setMuted(true);
+    ui->muteButton->setText("Unmute");
+    connect(ui->muteButton,&QPushButton::clicked,this,&MainWindow::unmuteMusic);
+    disconnect(ui->muteButton,&QPushButton::clicked,this,&MainWindow::muteMusic);
+
+}
+
+void MainWindow::unmuteMusic()
+{
+    audioOutput->setMuted(false);
+    ui->muteButton->setText("Mute");
+    connect(ui->muteButton,&QPushButton::clicked,this,&MainWindow::muteMusic);
+    disconnect(ui->muteButton,&QPushButton::clicked,this,&MainWindow::unmuteMusic);
 }
 
 
@@ -238,6 +253,10 @@ void MainWindow::vievOfTable()
 {
     model->setTable(dbManager.getAudioTableName());
     model->select();
+
+    model->setHeaderData(2,Qt::Horizontal,QObject::tr("songs"));
+    ui->tableViewAudio->verticalHeader()->setVisible(false);
+
     ui->tableViewAudio->setModel(model);
     ui->tableViewAudio->hideColumn(0);
     ui->tableViewAudio->hideColumn(1);
@@ -268,8 +287,10 @@ void MainWindow::onPositionChanged(qint64 progress)
     if(progress == currentSongDuration && progress != 0) {
         qDebug() << progress;
         qDebug() << currentSongDuration;
-        //player->stop();
-        this->on_nextSong_clicked();
+        player->stop();
+//        this->on_nextSong_clicked();
+
+        emit nextClicked();
     }
     else {
         if (!ui->musicSlider->isSliderDown())
