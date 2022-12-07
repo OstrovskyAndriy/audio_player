@@ -72,8 +72,6 @@ private slots:
     void onPositionChanged(qint64 progress);
     void seek(int mseconds);
 
-    void setSliderPosition(qint64 position);
-
 private:
     Ui::MainWindow *ui;
 
@@ -94,5 +92,7 @@ private:
     void updateDurationInfo(qint64 currentInfo);
     qint64 currentSongDuration;
 
+
+    int saveSliderPosition;
 };
 #endif // MAINWINDOW_H

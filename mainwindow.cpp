@@ -37,7 +37,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->volumeSlider->setSliderPosition(50);
     ui->volumeSlider->setRange(0,100);
     ui->songTime->setText("");
-
 }
 
 MainWindow::~MainWindow()
@@ -59,9 +58,6 @@ void MainWindow::on_Add_clicked()
     QFileInfo info(file);
     QString fileName = info.fileName(); //отримати назву файлу
     QString newFilePath;
-
-    ui->song_name->setText(fileName);
-
 
     if(QDir("music").exists()){     //перевіряю чи є папка musiс, якщо є то копіюю файл
         QFile::copy(file,"./music/"+fileName);
@@ -99,8 +95,10 @@ void MainWindow::playSong(QString songUrl)
 
 void MainWindow::playMusic()
 {  
-    ui->playAndStopSong->setText("Pause");
     player->play();
+
+    ui->playAndStopSong->setIcon(QIcon(":/images/images/pause_icon.png"));
+    ui->playAndStopSong->setIconSize(QSize(25,25));
 
     connect(ui->playAndStopSong, &QPushButton::clicked, this, &MainWindow::stopMusic);
     disconnect(ui->playAndStopSong, &QPushButton::clicked, this, &MainWindow::playMusic);
@@ -109,8 +107,10 @@ void MainWindow::playMusic()
 
 void MainWindow::stopMusic()
 {
-    ui->playAndStopSong->setText("Play");
     player->pause();
+
+    ui->playAndStopSong->setIcon(QIcon(":/images/images/play_icon.png"));
+    ui->playAndStopSong->setIconSize(QSize(25,25));
 
     disconnect(ui->playAndStopSong, &QPushButton::clicked, this, &MainWindow::stopMusic);
     connect(ui->playAndStopSong, &QPushButton::clicked, this, &MainWindow::playMusic);
@@ -120,18 +120,25 @@ void MainWindow::stopMusic()
 void MainWindow::muteMusic()
 {
     audioOutput->setMuted(true);
-    ui->muteButton->setText("Unmute");
+
+    ui->muteButton->setIcon(QIcon(":/images/images/mute_png.png"));
+    ui->muteButton->setIconSize(QSize(25,25));
+
     connect(ui->muteButton,&QPushButton::clicked,this,&MainWindow::unmuteMusic);
     disconnect(ui->muteButton,&QPushButton::clicked,this,&MainWindow::muteMusic);
-
+    this->saveSliderPosition=ui->volumeSlider->sliderPosition();
+    ui->volumeSlider->setSliderPosition(0);
 }
 
 void MainWindow::unmuteMusic()
 {
     audioOutput->setMuted(false);
-    ui->muteButton->setText("Mute");
+    ui->muteButton->setIcon(QIcon(":/images/images/unmute_icon.png"));
+    ui->muteButton->setIconSize(QSize(25,25));
+
     connect(ui->muteButton,&QPushButton::clicked,this,&MainWindow::muteMusic);
     disconnect(ui->muteButton,&QPushButton::clicked,this,&MainWindow::unmuteMusic);
+    ui->volumeSlider->setSliderPosition(this->saveSliderPosition);
 }
 
 
@@ -141,6 +148,10 @@ void MainWindow::on_volumeSlider_sliderMoved()  // виконуєтсья лиш
                                                 QAudio::LogarithmicVolumeScale,
                                                 QAudio::LinearVolumeScale);
     audioOutput->setVolume(linearVolume);
+
+    if(ui->volumeSlider->sliderPosition()==1){
+        this->unmuteMusic();
+    }
 }
 
 void MainWindow::on_volumeSlider_valueChanged() // виконуєтсья лише коли клацнути по регулятору гучності
@@ -149,6 +160,10 @@ void MainWindow::on_volumeSlider_valueChanged() // виконуєтсья лиш
                                                 QAudio::LogarithmicVolumeScale,
                                                 QAudio::LinearVolumeScale);
     audioOutput->setVolume(linearVolume);
+
+    if(ui->volumeSlider->sliderPosition()==1){
+        this->unmuteMusic();
+    }
 }
 
 void MainWindow::on_tableViewAudio_doubleClicked(const QModelIndex &index)
@@ -237,8 +252,9 @@ void MainWindow::on_deleteButton_clicked()
 
     if(songIndex==rowToDelete){
         player->stop();
+        ui->songTime->setText("");
+
     }
-    qDebug()<<rowToDelete;
 
     if(rowToDelete==0){
         rowToDelete=songIndex=ui->tableViewAudio->model()->rowCount()-1;
@@ -269,10 +285,6 @@ void MainWindow::seek(int mseconds)
     player->setPosition(mseconds);
 }
 
-void MainWindow::setSliderPosition(qint64 position)
-{
-    qDebug()<< position;
-}
 
 
 void MainWindow::onDurationChanged(qint64 duration)
@@ -288,7 +300,7 @@ void MainWindow::onPositionChanged(qint64 progress)
         qDebug() << progress;
         qDebug() << currentSongDuration;
         player->stop();
-//        this->on_nextSong_clicked();
+        //        this->on_nextSong_clicked();
 
         emit nextClicked();
     }

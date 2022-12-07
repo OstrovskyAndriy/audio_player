@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>379</width>
+    <width>337</width>
     <height>424</height>
    </rect>
   </property>
@@ -19,7 +19,7 @@
      <rect>
       <x>10</x>
       <y>130</y>
-      <width>361</width>
+      <width>321</width>
       <height>211</height>
      </rect>
     </property>
@@ -27,14 +27,24 @@
    <widget class="QPushButton" name="Add">
     <property name="geometry">
      <rect>
-      <x>22</x>
+      <x>12</x>
       <y>350</y>
-      <width>81</width>
-      <height>29</height>
+      <width>30</width>
+      <height>30</height>
      </rect>
     </property>
     <property name="text">
-     <string>Add</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="images.qrc">
+      <normaloff>:/images/images/add_file_icon.png</normaloff>:/images/images/add_file_icon.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>25</width>
+      <height>25</height>
+     </size>
     </property>
    </widget>
    <widget class="QLabel" name="song_name">
@@ -53,22 +63,32 @@
    <widget class="QPushButton" name="playAndStopSong">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>10</y>
-      <width>40</width>
+      <x>56</x>
+      <y>21</y>
+      <width>30</width>
       <height>30</height>
      </rect>
     </property>
     <property name="text">
-     <string>Pause</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="images.qrc">
+      <normaloff>:/images/images/pause_icon.png</normaloff>:/images/images/pause_icon.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>25</width>
+      <height>25</height>
+     </size>
     </property>
    </widget>
    <widget class="QSlider" name="volumeSlider">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>20</y>
-      <width>101</width>
+      <x>229</x>
+      <y>28</y>
+      <width>91</width>
       <height>20</height>
      </rect>
     </property>
@@ -76,82 +96,119 @@
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <widget class="QLabel" name="labelVolume">
-    <property name="geometry">
-     <rect>
-      <x>300</x>
-      <y>0</y>
-      <width>63</width>
-      <height>20</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>volume</string>
-    </property>
-   </widget>
    <widget class="QPushButton" name="nextSong">
     <property name="geometry">
      <rect>
-      <x>160</x>
-      <y>10</y>
-      <width>40</width>
-      <height>29</height>
+      <x>146</x>
+      <y>21</y>
+      <width>30</width>
+      <height>30</height>
      </rect>
     </property>
     <property name="text">
-     <string>Next</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="images.qrc">
+      <normaloff>:/images/images/next_icon.png</normaloff>:/images/images/next_icon.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>25</width>
+      <height>25</height>
+     </size>
     </property>
    </widget>
    <widget class="QPushButton" name="prevSong">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>40</width>
-      <height>29</height>
+      <x>11</x>
+      <y>21</y>
+      <width>30</width>
+      <height>30</height>
      </rect>
     </property>
     <property name="text">
-     <string>Prev</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="images.qrc">
+      <normaloff>:/images/images/previous_icon.png</normaloff>:/images/images/previous_icon.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>25</width>
+      <height>25</height>
+     </size>
     </property>
    </widget>
    <widget class="QPushButton" name="offMusic">
     <property name="geometry">
      <rect>
-      <x>110</x>
-      <y>10</y>
-      <width>40</width>
-      <height>29</height>
+      <x>101</x>
+      <y>21</y>
+      <width>30</width>
+      <height>30</height>
      </rect>
     </property>
     <property name="text">
-     <string>Stop</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="images.qrc">
+      <normaloff>:/images/images/stop_icon.png</normaloff>:/images/images/stop_icon.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>25</width>
+      <height>25</height>
+     </size>
     </property>
    </widget>
    <widget class="QPushButton" name="closeWindow">
     <property name="geometry">
      <rect>
-      <x>290</x>
+      <x>300</x>
       <y>350</y>
-      <width>83</width>
-      <height>29</height>
+      <width>30</width>
+      <height>30</height>
      </rect>
     </property>
     <property name="text">
-     <string>Close</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="images.qrc">
+      <normaloff>:/images/images/close_icon.png</normaloff>:/images/images/close_icon.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>25</width>
+      <height>25</height>
+     </size>
     </property>
    </widget>
    <widget class="QPushButton" name="deleteButton">
     <property name="geometry">
      <rect>
-      <x>110</x>
+      <x>50</x>
       <y>350</y>
-      <width>71</width>
-      <height>29</height>
+      <width>30</width>
+      <height>30</height>
      </rect>
     </property>
     <property name="text">
-     <string>Remove</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="images.qrc">
+      <normaloff>:/images/images/remove_icon.png</normaloff>:/images/images/remove_icon.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>25</width>
+      <height>25</height>
+     </size>
     </property>
    </widget>
    <widget class="QSlider" name="musicSlider">
@@ -170,7 +227,7 @@
    <widget class="QLabel" name="songTime">
     <property name="geometry">
      <rect>
-      <x>280</x>
+      <x>260</x>
       <y>70</y>
       <width>81</width>
       <height>20</height>
@@ -183,14 +240,24 @@
    <widget class="QPushButton" name="muteButton">
     <property name="geometry">
      <rect>
-      <x>210</x>
-      <y>10</y>
-      <width>51</width>
-      <height>29</height>
+      <x>191</x>
+      <y>21</y>
+      <width>30</width>
+      <height>30</height>
      </rect>
     </property>
     <property name="text">
-     <string>Mute</string>
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="images.qrc">
+      <normaloff>:/images/images/unmute_icon.png</normaloff>:/images/images/unmute_icon.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>25</width>
+      <height>25</height>
+     </size>
     </property>
    </widget>
   </widget>
@@ -199,13 +266,15 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>379</width>
+     <width>337</width>
      <height>25</height>
     </rect>
    </property>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="images.qrc"/>
+ </resources>
  <connections/>
 </ui>
