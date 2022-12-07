@@ -9,7 +9,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->tableViewAudio->setSelectionMode(QAbstractItemView::NoSelection);
     ui->tableViewAudio->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    this->setFixedSize(this->geometry().width(),this->geometry().height());
+
+
+    this->setFixedSize(this->geometry().width(),this->geometry().height()-23);
 
 
     connect(ui->playAndStopSong, &QPushButton::clicked,this, &MainWindow::playMusic);
@@ -36,7 +38,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->volumeSlider->setSliderPosition(50);
     ui->volumeSlider->setRange(0,100);
-    ui->songTime->setText("");
+    ui->song_name->setText("");
+    ui->songTime->setText("00:00/00:00");
 }
 
 MainWindow::~MainWindow()
@@ -79,8 +82,8 @@ void MainWindow::on_Add_clicked()
 
     vievOfTable();
 
-    songIndex=ui->tableViewAudio->model()->columnCount();
-    rowToDelete=songIndex;
+    //songIndex=ui->tableViewAudio->model()->columnCount();
+    //rowToDelete=songIndex;
 }
 
 
@@ -121,7 +124,7 @@ void MainWindow::muteMusic()
 {
     audioOutput->setMuted(true);
 
-    ui->muteButton->setIcon(QIcon(":/images/images/mute_png.png"));
+    ui->muteButton->setIcon(QIcon(":/images/images/mute_icon.png"));
     ui->muteButton->setIconSize(QSize(25,25));
 
     connect(ui->muteButton,&QPushButton::clicked,this,&MainWindow::unmuteMusic);
@@ -229,6 +232,7 @@ void MainWindow::on_prevSong_clicked()
 void MainWindow::on_offMusic_clicked()
 {
     player->stop();
+    this->stopMusic();
 }
 
 
@@ -236,6 +240,7 @@ void MainWindow::on_offMusic_clicked()
 void MainWindow::on_closeWindow_clicked()
 {
     QApplication::exit();
+
 }
 
 

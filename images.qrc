@@ -2,7 +2,6 @@
     <qresource prefix="/images">
         <file>images/add_file_icon.png</file>
         <file>images/close_icon.png</file>
-        <file>images/mute_png.png</file>
         <file>images/next_icon.png</file>
         <file>images/pause_icon.png</file>
         <file>images/play_icon.png</file>
@@ -10,5 +9,7 @@
         <file>images/remove_icon.png</file>
         <file>images/stop_icon.png</file>
         <file>images/unmute_icon.png</file>
+        <file>images/head_icon3.png</file>
+        <file>images/mute_icon.png</file>
     </qresource>
 </RCC>
