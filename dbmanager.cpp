@@ -12,6 +12,7 @@ DBManager::~DBManager()
 
 void DBManager::createAudioDB()
 {
+
     db=QSqlDatabase::addDatabase("QSQLITE"); // драйвер sqlite
     db.setDatabaseName("./audioDB.sqlite"); // добавити базу даних в папку проекту
 
@@ -62,5 +63,6 @@ bool DBManager::insert(QString &songUrl, QString &song_name) const
     return query->exec();
 
 }
+
 
 

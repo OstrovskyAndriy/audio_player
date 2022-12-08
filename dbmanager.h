@@ -15,8 +15,9 @@ class DBManager
     QSqlDatabase db;
     QSqlQuery *query;
 
+
 public:
-    DBManager();
+    DBManager(); //було
     ~DBManager();
 
     void createAudioDB();
@@ -26,6 +27,9 @@ public:
     QSqlDatabase returnAudioDB();
 
     bool insert(QString &songUrl,QString &song_name) const;
+
+
 };
+
 
 #endif // DBMANAGER_H

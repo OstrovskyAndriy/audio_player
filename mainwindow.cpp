@@ -24,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     model =new QSqlTableModel(this,dbManager.returnAudioDB());
 
+
     model->setTable(dbManager.getAudioTableName());
 
 
@@ -82,7 +83,6 @@ void MainWindow::on_Add_clicked()
     else{
         QDir().mkdir("music"); //інше створюю папку і копіюю файл
         QFile::copy(file,"./music/"+fileName);
-
     }
 
 
@@ -90,6 +90,7 @@ void MainWindow::on_Add_clicked()
         errorMsg.setText("Error entering data");
         openErrorDiag();
     }
+
 
     vievOfTable();
 }
@@ -171,8 +172,8 @@ void MainWindow::on_volumeSlider_valueChanged() // виконуєтсья лиш
                                                 QAudio::LogarithmicVolumeScale,
                                                 QAudio::LinearVolumeScale);
     audioOutput->setVolume(linearVolume);
-
-    if(ui->volumeSlider->sliderPosition()==1){
+    if(ui->volumeSlider->sliderPosition()==10){
+        saveSliderPosition=10;
         this->unmuteMusic();
     }
 }
@@ -295,7 +296,6 @@ void MainWindow::onPositionChanged(qint64 progress)
     if(progress == currentSongDuration && progress != 0) {
         qDebug() << progress;
         qDebug() << currentSongDuration;
-        ui->musicSlider->setSliderPosition(currentSongDuration+10000);
         player->stop();
 //                this->on_nextSong_clicked();
 
