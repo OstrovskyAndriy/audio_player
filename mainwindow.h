@@ -72,6 +72,8 @@ private slots:
     void onPositionChanged(qint64 progress);
     void seek(int mseconds);
 
+    void openErrorDiag();
+
 private:
     Ui::MainWindow *ui;
 

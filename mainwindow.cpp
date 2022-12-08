@@ -62,6 +62,17 @@ void MainWindow::on_Add_clicked()
     QString fileName = info.fileName(); //отримати назву файлу
     QString newFilePath;
 
+    QString checkIsSongPresent;
+    for(int i=0;i<ui->tableViewAudio->model()->rowCount();i++){
+        checkIsSongPresent=ui->tableViewAudio->model()->data(ui->tableViewAudio->model()->index(i,2)).toString();
+
+        if(checkIsSongPresent==fileName){
+            errorMsg.setText("This file already present");
+            openErrorDiag();
+            return;
+        }
+    }
+
     if(QDir("music").exists()){     //перевіряю чи є папка musiс, якщо є то копіюю файл
         QFile::copy(file,"./music/"+fileName);
 
@@ -77,13 +88,10 @@ void MainWindow::on_Add_clicked()
 
     if(!dbManager.insert(newFilePath,fileName)){
         errorMsg.setText("Error entering data");
-        errorMsg.exec();
+        openErrorDiag();
     }
 
     vievOfTable();
-
-    //songIndex=ui->tableViewAudio->model()->columnCount();
-    //rowToDelete=songIndex;
 }
 
 
@@ -182,10 +190,7 @@ void MainWindow::on_tableViewAudio_doubleClicked(const QModelIndex &index)
         ui->tableViewAudio->model()->removeRow(songIndex);
         vievOfTable();
 
-        //Вивести про це помилку
-        //QMessageBox errorMsg;
-        errorMsg.setText(songName+" not found");
-        errorMsg.exec();
+        openErrorDiag();
     }
 
     else{
@@ -217,7 +222,7 @@ void MainWindow::on_prevSong_clicked()
 {
     songIndex--;
     if(songIndex==-1){
-        songIndex=ui->tableViewAudio->model()->rowCount()-1;
+        songIndex=ui->tableViewAudio->model()->rowCount()-1; //якщо викликано слот на нульвій позиції пісні ставлю індекс на останню
     }
 
     rowToDelete=songIndex;
@@ -257,8 +262,7 @@ void MainWindow::on_deleteButton_clicked()
 
     if(songIndex==rowToDelete){
         player->stop();
-        ui->songTime->setText("");
-
+        ui->songTime->setText("00:00/00:00");
     }
 
     if(rowToDelete==0){
@@ -270,26 +274,10 @@ void MainWindow::on_deleteButton_clicked()
     }
 }
 
-void MainWindow::vievOfTable()
-{
-    model->setTable(dbManager.getAudioTableName());
-    model->select();
-
-    model->setHeaderData(2,Qt::Horizontal,QObject::tr("songs"));
-    ui->tableViewAudio->verticalHeader()->setVisible(false);
-
-    ui->tableViewAudio->setModel(model);
-    ui->tableViewAudio->hideColumn(0);
-    ui->tableViewAudio->hideColumn(1);
-    ui->tableViewAudio->setColumnWidth(2,ui->tableViewAudio->width());
-}
-
-
 void MainWindow::seek(int mseconds)
 {
     player->setPosition(mseconds);
 }
-
 
 
 void MainWindow::onDurationChanged(qint64 duration)
@@ -301,11 +289,15 @@ void MainWindow::onDurationChanged(qint64 duration)
 
 void MainWindow::onPositionChanged(qint64 progress)
 {
+    qDebug()<<progress;
+    qDebug()<<currentSongDuration;
+
     if(progress == currentSongDuration && progress != 0) {
         qDebug() << progress;
         qDebug() << currentSongDuration;
+        ui->musicSlider->setSliderPosition(currentSongDuration+10000);
         player->stop();
-        //        this->on_nextSong_clicked();
+//                this->on_nextSong_clicked();
 
         emit nextClicked();
     }
@@ -335,4 +327,26 @@ void MainWindow::updateDurationInfo(qint64 currentInfo)
         tStr = currentTime.toString(format) + " / " + totalTime.toString(time.toString("mm:ss"));
     }
     ui->songTime->setText(tStr);
+}
+
+void MainWindow::vievOfTable()
+{
+    model->setTable(dbManager.getAudioTableName());
+    model->select();
+
+    model->setHeaderData(2,Qt::Horizontal,QObject::tr("songs"));
+    ui->tableViewAudio->verticalHeader()->setVisible(false);
+
+    ui->tableViewAudio->setModel(model);
+    ui->tableViewAudio->hideColumn(0);
+    ui->tableViewAudio->hideColumn(1);
+    ui->tableViewAudio->setColumnWidth(2,ui->tableViewAudio->width());
+}
+
+void MainWindow::openErrorDiag()
+{
+    errorMsg.setWindowIcon(QIcon(":/images/images/red_error_icon.png"));
+    errorMsg.setWindowTitle("Error");
+    QApplication::beep();
+    errorMsg.exec();
 }
