@@ -68,7 +68,7 @@ void MainWindow::on_Add_clicked()
         checkIsSongPresent=ui->tableViewAudio->model()->data(ui->tableViewAudio->model()->index(i,2)).toString();
 
         if(checkIsSongPresent==fileName){
-            errorMsg.setText("This file already present");
+            errorMsg.setText(fileName+"\nThis file already present");
             openErrorDiag();
             return;
         }
@@ -190,7 +190,7 @@ void MainWindow::on_tableViewAudio_doubleClicked(const QModelIndex &index)
     if(!QFile(url).exists()){
         ui->tableViewAudio->model()->removeRow(songIndex);
         vievOfTable();
-
+        errorMsg.setText(songName+"\nNot found");
         openErrorDiag();
     }
 
