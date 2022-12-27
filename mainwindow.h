@@ -3,21 +3,16 @@
 
 #include <QMainWindow>
 #include <QMessageBox>
-
 #include <QSqlTableModel> // для відображення таблиць
 #include <QTableView>
-
 #include <QStringList>
 #include <QFileDialog>
 #include <QFileInfo>
-
 #include <QMediaPlayer>
 #include <QAudioOutput>
 #include <QSlider>
-
 #include <QFile>
 #include <QDir>
-
 #include <QTime>
 
 
@@ -37,37 +32,23 @@ public:
 
 signals:
     void nextClicked();
-
 private slots:
     void on_Add_clicked();
-
     void on_tableViewAudio_doubleClicked(const QModelIndex &index);
-
     void playMusic();
     void stopMusic();
     void muteMusic();
     void unmuteMusic();
-
     void playSong(QString songUrl);
-
     void on_volumeSlider_sliderMoved();
-
     void on_volumeSlider_valueChanged();
-
     void on_nextSong_clicked();
-
     void on_prevSong_clicked();
-
     void on_offMusic_clicked();
-
     void on_closeWindow_clicked();
-
     void on_tableViewAudio_clicked(const QModelIndex &index);
-
     void on_deleteButton_clicked();
-
     void vievOfTable();
-
     void onDurationChanged(qint64 duration);
     void onPositionChanged(qint64 progress);
     void seek(int mseconds);
@@ -76,25 +57,19 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-
     QSqlTableModel *model;
+    DBManager *dbManager;
 
-    DBManager dbManager;
 
     QMediaPlayer *player;
     QAudioOutput *audioOutput;
-
-
     QString url;
     QString songName;
     QMessageBox errorMsg;
     int songIndex;
     int rowToDelete;
-
     void updateDurationInfo(qint64 currentInfo);
     qint64 currentSongDuration;
-
-
     int saveSliderPosition;
 };
 #endif // MAINWINDOW_H

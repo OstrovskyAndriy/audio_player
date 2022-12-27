@@ -10,9 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tableViewAudio->setSelectionMode(QAbstractItemView::NoSelection);
     ui->tableViewAudio->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
-
     this->setFixedSize(this->geometry().width(),this->geometry().height()-23);
-
 
     connect(ui->playAndStopSong, &QPushButton::clicked,this, &MainWindow::playMusic);
     connect(ui->muteButton,&QPushButton::clicked,this,&MainWindow::muteMusic);
@@ -20,13 +18,12 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(this,&MainWindow::nextClicked,this,&MainWindow::on_nextSong_clicked);
 
-    dbManager.createAudioDB();
+    dbManager=DBManager::getInstance();
+    dbManager->connectToDataBase();
 
-    model =new QSqlTableModel(this,dbManager.returnAudioDB());
+    model =new QSqlTableModel(this,dbManager->getDB());
 
-
-    model->setTable(dbManager.getAudioTableName());
-
+    model->setTable(dbManager->getAudioTableName());
 
     vievOfTable();
 
@@ -83,18 +80,16 @@ void MainWindow::on_Add_clicked()
     else{
         QDir().mkdir("music"); //інше створюю папку і копіюю файл
         QFile::copy(file,"./music/"+fileName);
+        newFilePath=QFileInfo("./music/"+fileName).absoluteFilePath();
     }
 
-
-    if(!dbManager.insert(newFilePath,fileName)){
+    if(!dbManager->inserIntoTable(newFilePath,fileName)){
         errorMsg.setText("Error entering data");
         openErrorDiag();
     }
 
-
     vievOfTable();
 }
-
 
 void MainWindow::playSong(QString songUrl)
 {
@@ -116,7 +111,6 @@ void MainWindow::playMusic()
     disconnect(ui->playAndStopSong, &QPushButton::clicked, this, &MainWindow::playMusic);
 }
 
-
 void MainWindow::stopMusic()
 {
     player->pause();
@@ -127,7 +121,6 @@ void MainWindow::stopMusic()
     disconnect(ui->playAndStopSong, &QPushButton::clicked, this, &MainWindow::stopMusic);
     connect(ui->playAndStopSong, &QPushButton::clicked, this, &MainWindow::playMusic);
 }
-
 
 void MainWindow::muteMusic()
 {
@@ -152,7 +145,6 @@ void MainWindow::unmuteMusic()
     disconnect(ui->muteButton,&QPushButton::clicked,this,&MainWindow::unmuteMusic);
     ui->volumeSlider->setSliderPosition(this->saveSliderPosition);
 }
-
 
 void MainWindow::on_volumeSlider_sliderMoved()  // виконуєтсья лише коли регулятор пересувати
 {
@@ -185,8 +177,6 @@ void MainWindow::on_tableViewAudio_doubleClicked(const QModelIndex &index)
     songIndex = index.row();
     rowToDelete = songIndex;
 
-    //перевірка чи файл дійсний
-    //якщо не дійсний то видалити з бази даних
     if(!QFile(url).exists()){
         ui->tableViewAudio->model()->removeRow(songIndex);
         vievOfTable();
@@ -194,13 +184,9 @@ void MainWindow::on_tableViewAudio_doubleClicked(const QModelIndex &index)
         openErrorDiag();
     }
 
-    else{
-        //в іншому випадку включити музику
+    else
         this->playSong(url);
-
-    }
 }
-
 
 void MainWindow::on_nextSong_clicked()
 {
@@ -218,7 +204,6 @@ void MainWindow::on_nextSong_clicked()
     this->playSong(url);
 }
 
-
 void MainWindow::on_prevSong_clicked()
 {
     songIndex--;
@@ -234,27 +219,16 @@ void MainWindow::on_prevSong_clicked()
     this->playSong(url);
 }
 
-
 void MainWindow::on_offMusic_clicked()
 {
     player->stop();
     this->stopMusic();
 }
 
-
-
-void MainWindow::on_closeWindow_clicked()
-{
-    QApplication::exit();
-
-}
-
-
 void MainWindow::on_tableViewAudio_clicked(const QModelIndex &index)
 {
     rowToDelete=index.row();
 }
-
 
 void MainWindow::on_deleteButton_clicked()
 {
@@ -280,7 +254,6 @@ void MainWindow::seek(int mseconds)
     player->setPosition(mseconds);
 }
 
-
 void MainWindow::onDurationChanged(qint64 duration)
 {
 
@@ -297,8 +270,6 @@ void MainWindow::onPositionChanged(qint64 progress)
         qDebug() << progress;
         qDebug() << currentSongDuration;
         player->stop();
-//                this->on_nextSong_clicked();
-
         emit nextClicked();
     }
     else {
@@ -318,11 +289,8 @@ void MainWindow::updateDurationInfo(qint64 currentInfo)
         QTime totalTime((duration / 3600) % 60, (duration / 60) % 60,
                         duration % 60, (duration * 1000) % 1000);
         QString format = "mm:ss";
-        //if (m_duration > 3600)
-        //  format = "hh:mm:ss";
 
         QTime time=QTime::fromMSecsSinceStartOfDay(player->duration());
-        //        //qDebug()<<time.toString("mm:ss");
 
         tStr = currentTime.toString(format) + " / " + totalTime.toString(time.toString("mm:ss"));
     }
@@ -331,7 +299,7 @@ void MainWindow::updateDurationInfo(qint64 currentInfo)
 
 void MainWindow::vievOfTable()
 {
-    model->setTable(dbManager.getAudioTableName());
+    model->setTable(dbManager->getAudioTableName());
     model->select();
 
     model->setHeaderData(2,Qt::Horizontal,QObject::tr("songs"));
@@ -349,4 +317,9 @@ void MainWindow::openErrorDiag()
     errorMsg.setWindowTitle("Error");
     QApplication::beep();
     errorMsg.exec();
+}
+
+void MainWindow::on_closeWindow_clicked()
+{
+    QApplication::exit();
 }

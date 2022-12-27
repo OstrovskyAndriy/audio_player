@@ -1,6 +1,5 @@
 QT       += core gui sql multimedia
 
-
 # Це конфігурація запуску утиліти windeployqt, яка при релізі програми збере усі необхідні dll
 # If release-buid -> run windeploy applications, that will collect all the dlls
 CONFIG(release, debug|release) {
@@ -15,7 +14,6 @@ UI_DIR = ui
 unix:OBJECTS_DIR = unix
 win32:OBJECTS_DIR = win32
 macx:OBJECTS_DIR = mac
-
 
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
