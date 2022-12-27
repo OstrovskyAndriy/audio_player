@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(const int userID, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
@@ -308,6 +308,7 @@ void MainWindow::vievOfTable()
     ui->tableViewAudio->setModel(model);
     ui->tableViewAudio->hideColumn(0);
     ui->tableViewAudio->hideColumn(1);
+    ui->tableViewAudio->hideColumn(3);
     ui->tableViewAudio->setColumnWidth(2,ui->tableViewAudio->width());
 }
 

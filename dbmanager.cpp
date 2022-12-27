@@ -17,9 +17,7 @@ DBManager* DBManager::getInstance()
 
 void DBManager::connectToDataBase()
 {
-    /* Перед підключенням до бази даних виконуємо перевірку на її існування.
-     * В залежності від результату виконуємо відкриття бази даних або її відновлення
-     * */
+
     if(QFile("audioDB.sqlite").exists()){
         this->openDataBase();
     } else {
@@ -32,12 +30,11 @@ QSqlDatabase DBManager::getDB()
     return db;
 }
 
-/* Методи відновлення бази даних
- * */
+
 bool DBManager::restoreDataBase()
 {
     if(this->openDataBase()){
-        if(!this->createMusicTable()){
+        if(!this->createTables()){
             return false;
         } else {
             return true;
@@ -65,19 +62,32 @@ void DBManager::closeDataBase()
     db.close();
 }
 
-bool DBManager::createMusicTable()
+bool DBManager::createTables()
 {
-
     QSqlQuery query;
+
+    if(!query.exec("CREATE TABLE users("
+                   "id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,"
+                   "user_name VARCHAR(100) NOT NULL UNIQUE,"
+                   "password VARCHAR(100) NOT NULL);"))
+    {
+        qDebug()<<"users error creating";
+        qDebug() << query.lastError().text();
+        return false;
+    }
+
     if(!query.exec("CREATE TABLE audioList ("
                    "music_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, "
                    "path VARCHAR(100) NOT NULL,"
-                   "song_name VARCHAR(100) NOT NULL);")){
-
-
+                   "song_name VARCHAR(100) NOT NULL,"
+                   "user_id INTEGER NOT NULL,"
+                   "FOREIGN KEY(user_id) REFERENCES users(id));"))
+    {
+        qDebug()<<"audioList error creating";
         qDebug() << query.lastError().text();
         return false;
-    } else
+    }
+
         return true;
 }
 

@@ -19,7 +19,7 @@ class DBManager
     bool openDataBase();
     bool restoreDataBase();
     void closeDataBase();
-    bool createMusicTable();
+    bool createTables();
 
 public:
     static DBManager* getInstance();
