@@ -29,6 +29,7 @@ public:
     bool inserIntoTable(QString &songUrl,QString &song_name);
 
     QString getAudioTableName();
+    QString getUsersTableName();
 
 };
 

@@ -27,14 +27,17 @@ CONFIG += c++17
 SOURCES += \
     dbmanager.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    users.cpp
 
 HEADERS += \
     dbmanager.h \
-    mainwindow.h
+    mainwindow.h \
+    users.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    users.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

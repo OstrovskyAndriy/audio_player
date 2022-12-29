@@ -66,6 +66,7 @@ private:
     QString url;
     QString songName;
     QMessageBox errorMsg;
+
     int songIndex;
     int rowToDelete;
     void updateDurationInfo(qint64 currentInfo);

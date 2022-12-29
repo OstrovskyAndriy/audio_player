@@ -119,3 +119,8 @@ QString DBManager::getAudioTableName()
     return "audioList";
 }
 
+QString DBManager::getUsersTableName()
+{
+    return "users";
+}
+
