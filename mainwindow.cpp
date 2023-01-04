@@ -6,6 +6,7 @@ MainWindow::MainWindow(const int userID, QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->userID=userID;
 
     ui->tableViewAudio->setSelectionMode(QAbstractItemView::NoSelection);
     ui->tableViewAudio->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -18,12 +19,18 @@ MainWindow::MainWindow(const int userID, QWidget *parent)
 
     connect(this,&MainWindow::nextClicked,this,&MainWindow::on_nextSong_clicked);
 
+
+
+    modal = new QSqlQueryModel();
+
+
+
+
+
     dbManager=DBManager::getInstance();
-    dbManager->connectToDataBase();
+    //dbManager->connectToDataBase();
 
     model =new QSqlTableModel(this,dbManager->getDB());
-
-    model->setTable(dbManager->getAudioTableName());
 
     vievOfTable();
 
@@ -45,6 +52,7 @@ MainWindow::~MainWindow()
     delete ui;
     delete model;
     delete player;
+    delete modal;
 }
 
 
@@ -83,7 +91,7 @@ void MainWindow::on_Add_clicked()
         newFilePath=QFileInfo("./music/"+fileName).absoluteFilePath();
     }
 
-    if(!dbManager->inserIntoTable(newFilePath,fileName)){
+    if(!dbManager->inserIntoPlaylist(newFilePath,fileName,userID)){
         errorMsg.setText("Error entering data");
         openErrorDiag();
     }
@@ -228,17 +236,36 @@ void MainWindow::on_offMusic_clicked()
 void MainWindow::on_tableViewAudio_clicked(const QModelIndex &index)
 {
     rowToDelete=index.row();
+    songNameToDelete = ui->tableViewAudio->model()->data(ui->tableViewAudio->model()->index(rowToDelete,2)).toString();
 }
 
 void MainWindow::on_deleteButton_clicked()
 {
+    if(songIndex==rowToDelete){
+        player->stop();
+        //this->stopMusic();
+        ui->songTime->setText("00:00/00:00");
+    }
+
+    QSqlQuery query(dbManager->getDB());
+
+    QString deleteQuery = "DELETE FROM audioList WHERE (user_id="+QString::number(userID)+" and song_name="+"'"+songNameToDelete+"'"+");";
+    if(!query.exec(deleteQuery)){
+        qDebug()<<deleteQuery;
+        qDebug()<<"bad query to delete";
+    }
+
+    qDebug()<<songIndex;
+    qDebug()<<rowToDelete;
+
     ui->tableViewAudio->model()->removeRow(rowToDelete);
     vievOfTable();
 
-    if(songIndex==rowToDelete){
-        player->stop();
-        ui->songTime->setText("00:00/00:00");
-    }
+//    if(songIndex==rowToDelete){
+//        //player->stop();
+//        this->stopMusic();
+//        ui->songTime->setText("00:00/00:00");
+//    }
 
     if(rowToDelete==0){
         rowToDelete=songIndex=ui->tableViewAudio->model()->rowCount()-1;
@@ -263,8 +290,8 @@ void MainWindow::onDurationChanged(qint64 duration)
 
 void MainWindow::onPositionChanged(qint64 progress)
 {
-    qDebug()<<progress;
-    qDebug()<<currentSongDuration;
+    //qDebug()<<progress;
+    //qDebug()<<currentSongDuration;
 
     if(progress == currentSongDuration && progress != 0) {
         qDebug() << progress;
@@ -299,13 +326,12 @@ void MainWindow::updateDurationInfo(qint64 currentInfo)
 
 void MainWindow::vievOfTable()
 {
-    model->setTable(dbManager->getAudioTableName());
-    model->select();
+    //QSqlQueryModel * modal = new QSqlQueryModel();
 
-    model->setHeaderData(2,Qt::Horizontal,QObject::tr("songs"));
+    modal->setQuery("select * from audioList where user_id="+QString::number(userID)+";");
+    ui->tableViewAudio->setModel(modal);
+
     ui->tableViewAudio->verticalHeader()->setVisible(false);
-
-    ui->tableViewAudio->setModel(model);
     ui->tableViewAudio->hideColumn(0);
     ui->tableViewAudio->hideColumn(1);
     ui->tableViewAudio->hideColumn(3);

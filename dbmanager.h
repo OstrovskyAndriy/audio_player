@@ -26,7 +26,8 @@ public:
 
     void connectToDataBase();
     QSqlDatabase getDB();
-    bool inserIntoTable(QString &songUrl,QString &song_name);
+    bool inserIntoPlaylist(QString &songUrl,QString &song_name,int ID) const;
+    bool insertIntoUsers(QString name,QString password) const;
 
     QString getAudioTableName();
     QString getUsersTableName();

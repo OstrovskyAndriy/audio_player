@@ -14,7 +14,7 @@
 #include <QFile>
 #include <QDir>
 #include <QTime>
-
+#include <QSqlQueryModel>
 
 #include "dbmanager.h"
 
@@ -61,12 +61,20 @@ private:
     DBManager *dbManager;
 
 
+
+    QSqlQueryModel * modal;
+
+
+
     QMediaPlayer *player;
     QAudioOutput *audioOutput;
     QString url;
     QString songName;
+    QString songNameToDelete;
+
     QMessageBox errorMsg;
 
+    int userID;
     int songIndex;
     int rowToDelete;
     void updateDurationInfo(qint64 currentInfo);

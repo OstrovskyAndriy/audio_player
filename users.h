@@ -4,6 +4,8 @@
 #include <QDialog>
 #include "mainwindow.h"
 #include <QSqlTableModel>
+#include <adduser.h>
+#include<QMessageBox>
 
 namespace Ui {
 class Users;
@@ -18,17 +20,23 @@ public:
     ~Users();
 
 private slots:
-    void on_openPlayer_clicked();
 
     void vievOfTable();
+
+    void on_addUser_clicked();
+
+    void on_usersTableView_doubleClicked(const QModelIndex &index);
+
+    void on_passwordEdit_returnPressed();
 
 private:
     Ui::Users *ui;
 
-    MainWindow*playerWindow;
-    DBManager*dbManager;
+    MainWindow *playerWindow;
+    DBManager *dbManager;
     QSqlTableModel *model;
-
+    AddUser *addUser;
+    QMessageBox errorMsg;
 };
 
 #endif // USERS_H
