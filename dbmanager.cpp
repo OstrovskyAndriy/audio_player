@@ -91,17 +91,40 @@ bool DBManager::createTables()
         return true;
 }
 
-bool DBManager::inserIntoTable(QString &songUrl,QString &song_name)
+bool DBManager::inserIntoPlaylist(QString &songUrl,QString &song_name,int ID) const
 {
     QSqlQuery query;
 
     query.prepare("INSERT INTO audioList("
                        "path, "
-                       "song_name)"
-                       "VALUES(?,?);");
+                       "song_name,"
+                       "user_id)"
+                       "VALUES(?,?,?);");
 
         query.addBindValue(songUrl);
         query.addBindValue(song_name);
+        query.addBindValue(ID);
+
+    if(!query.exec()){
+        qDebug() << query.lastError().text();
+        qDebug() << query.lastQuery();
+
+        return false;
+    } else
+        return true;
+}
+
+bool DBManager::insertIntoUsers(QString name, QString password) const
+{
+    QSqlQuery query(db);
+
+    query.prepare("INSERT INTO users("
+                       "user_name, "
+                       "password)"
+                       "VALUES(?,?);");
+
+        query.addBindValue(name);
+        query.addBindValue(password);
 
     if(!query.exec()){
         qDebug() << query.lastError().text();
