@@ -25,8 +25,6 @@ private slots:
 
     void on_addUser_clicked();
 
-    void on_usersTableView_doubleClicked(const QModelIndex &index);
-
     void on_passwordEdit_returnPressed();
 
 private:

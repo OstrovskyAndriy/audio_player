@@ -18,6 +18,7 @@ public:
     ~AddUser();
 
     void addUser();
+    void openErrorMsg();
 
 private:
     Ui::AddUser *ui;

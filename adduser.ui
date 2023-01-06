@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Add User</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="images.qrc">
+    <normaloff>:/images/images/head_icon3.png</normaloff>:/images/images/head_icon3.png</iconset>
   </property>
   <widget class="QLineEdit" name="nameEdit">
    <property name="geometry">
@@ -96,6 +100,8 @@
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="images.qrc"/>
+ </resources>
  <connections/>
 </ui>

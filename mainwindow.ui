@@ -36,8 +36,8 @@
    <widget class="QPushButton" name="Add">
     <property name="geometry">
      <rect>
-      <x>12</x>
-      <y>350</y>
+      <x>4</x>
+      <y>351</y>
       <width>30</width>
       <height>30</height>
      </rect>
@@ -178,7 +178,7 @@
     <property name="geometry">
      <rect>
       <x>300</x>
-      <y>350</y>
+      <y>351</y>
       <width>30</width>
       <height>30</height>
      </rect>
@@ -200,8 +200,8 @@
    <widget class="QPushButton" name="deleteButton">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>350</y>
+      <x>40</x>
+      <y>351</y>
       <width>30</width>
       <height>30</height>
      </rect>
@@ -261,6 +261,29 @@
     <property name="icon">
      <iconset resource="images.qrc">
       <normaloff>:/images/images/unmute_icon.png</normaloff>:/images/images/unmute_icon.png</iconset>
+    </property>
+    <property name="iconSize">
+     <size>
+      <width>25</width>
+      <height>25</height>
+     </size>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="goToUsers">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>351</y>
+      <width>30</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="images.qrc">
+      <normaloff>:/images/images/go_backpng.png</normaloff>:/images/images/go_backpng.png</iconset>
     </property>
     <property name="iconSize">
      <size>

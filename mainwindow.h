@@ -53,18 +53,15 @@ private slots:
     void onPositionChanged(qint64 progress);
     void seek(int mseconds);
 
-    void openErrorDiag();
+    void openErrorMsg();
+
+    void on_goToUsers_clicked();
 
 private:
     Ui::MainWindow *ui;
-    QSqlTableModel *model;
     DBManager *dbManager;
 
-
-
-    QSqlQueryModel * modal;
-
-
+    QSqlQueryModel * model;
 
     QMediaPlayer *player;
     QAudioOutput *audioOutput;

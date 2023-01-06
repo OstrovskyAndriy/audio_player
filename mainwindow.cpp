@@ -21,7 +21,7 @@ MainWindow::MainWindow(const int userID, QWidget *parent)
 
 
 
-    modal = new QSqlQueryModel();
+    model = new QSqlQueryModel();
 
 
 
@@ -29,8 +29,6 @@ MainWindow::MainWindow(const int userID, QWidget *parent)
 
     dbManager=DBManager::getInstance();
     //dbManager->connectToDataBase();
-
-    model =new QSqlTableModel(this,dbManager->getDB());
 
     vievOfTable();
 
@@ -50,9 +48,8 @@ MainWindow::MainWindow(const int userID, QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
-    delete model;
     delete player;
-    delete modal;
+    delete model;
 }
 
 
@@ -74,7 +71,7 @@ void MainWindow::on_Add_clicked()
 
         if(checkIsSongPresent==fileName){
             errorMsg.setText(fileName+"\nThis file already present");
-            openErrorDiag();
+            openErrorMsg();
             return;
         }
     }
@@ -93,7 +90,7 @@ void MainWindow::on_Add_clicked()
 
     if(!dbManager->inserIntoPlaylist(newFilePath,fileName,userID)){
         errorMsg.setText("Error entering data");
-        openErrorDiag();
+        openErrorMsg();
     }
 
     vievOfTable();
@@ -189,7 +186,7 @@ void MainWindow::on_tableViewAudio_doubleClicked(const QModelIndex &index)
         ui->tableViewAudio->model()->removeRow(songIndex);
         vievOfTable();
         errorMsg.setText(songName+"\nNot found");
-        openErrorDiag();
+        openErrorMsg();
     }
 
     else
@@ -326,10 +323,8 @@ void MainWindow::updateDurationInfo(qint64 currentInfo)
 
 void MainWindow::vievOfTable()
 {
-    //QSqlQueryModel * modal = new QSqlQueryModel();
-
-    modal->setQuery("select * from audioList where user_id="+QString::number(userID)+";");
-    ui->tableViewAudio->setModel(modal);
+    model->setQuery("select * from audioList where user_id="+QString::number(userID)+";");
+    ui->tableViewAudio->setModel(model);
 
     ui->tableViewAudio->verticalHeader()->setVisible(false);
     ui->tableViewAudio->hideColumn(0);
@@ -338,7 +333,7 @@ void MainWindow::vievOfTable()
     ui->tableViewAudio->setColumnWidth(2,ui->tableViewAudio->width());
 }
 
-void MainWindow::openErrorDiag()
+void MainWindow::openErrorMsg()
 {
     errorMsg.setWindowIcon(QIcon(":/images/images/red_error_icon.png"));
     errorMsg.setWindowTitle("Error");
@@ -350,3 +345,11 @@ void MainWindow::on_closeWindow_clicked()
 {
     QApplication::exit();
 }
+
+void MainWindow::on_goToUsers_clicked()
+{
+    this->on_offMusic_clicked();
+    this->destroy();
+    emit this->destroyed();
+}
+

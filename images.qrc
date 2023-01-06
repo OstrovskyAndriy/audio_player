@@ -12,5 +12,6 @@
         <file>images/head_icon3.png</file>
         <file>images/mute_icon.png</file>
         <file>images/red_error_icon.png</file>
+        <file>images/go_backpng.png</file>
     </qresource>
 </RCC>

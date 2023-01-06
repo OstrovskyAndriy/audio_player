@@ -7,11 +7,15 @@
     <x>0</x>
     <y>0</y>
     <width>236</width>
-    <height>229</height>
+    <height>211</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Login</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="images.qrc">
+    <normaloff>:/images/images/head_icon3.png</normaloff>:/images/images/head_icon3.png</iconset>
   </property>
   <widget class="QTableView" name="usersTableView">
    <property name="geometry">
@@ -26,8 +30,8 @@
   <widget class="QPushButton" name="addUser">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>190</y>
+     <x>18</x>
+     <y>167</y>
      <width>83</width>
      <height>29</height>
     </rect>
@@ -39,10 +43,10 @@
   <widget class="QLabel" name="loginLabel">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>30</y>
+     <x>88</x>
+     <y>17</y>
      <width>101</width>
-     <height>61</height>
+     <height>51</height>
     </rect>
    </property>
    <property name="font">
@@ -57,8 +61,8 @@
   <widget class="QLineEdit" name="nameEdit">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>108</y>
+     <x>98</x>
+     <y>85</y>
      <width>125</width>
      <height>28</height>
     </rect>
@@ -67,8 +71,8 @@
   <widget class="QLineEdit" name="passwordEdit">
    <property name="geometry">
     <rect>
-     <x>90</x>
-     <y>143</y>
+     <x>98</x>
+     <y>120</y>
      <width>125</width>
      <height>28</height>
     </rect>
@@ -77,8 +81,8 @@
   <widget class="QLabel" name="nameLabel">
    <property name="geometry">
     <rect>
-     <x>22</x>
-     <y>108</y>
+     <x>30</x>
+     <y>85</y>
      <width>40</width>
      <height>20</height>
     </rect>
@@ -90,8 +94,8 @@
   <widget class="QLabel" name="passwordLabel">
    <property name="geometry">
     <rect>
-     <x>22</x>
-     <y>143</y>
+     <x>30</x>
+     <y>120</y>
      <width>61</width>
      <height>20</height>
     </rect>
@@ -101,6 +105,8 @@
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="images.qrc"/>
+ </resources>
  <connections/>
 </ui>
