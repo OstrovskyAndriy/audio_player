@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>270</width>
-    <height>181</height>
+    <width>275</width>
+    <height>153</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,9 +20,9 @@
   <widget class="QLineEdit" name="nameEdit">
    <property name="geometry">
     <rect>
-     <x>132</x>
+     <x>120</x>
      <y>21</y>
-     <width>125</width>
+     <width>110</width>
      <height>28</height>
     </rect>
    </property>
@@ -30,9 +30,9 @@
   <widget class="QLineEdit" name="passwordEdit">
    <property name="geometry">
     <rect>
-     <x>132</x>
+     <x>120</x>
      <y>56</y>
-     <width>125</width>
+     <width>110</width>
      <height>28</height>
     </rect>
    </property>
@@ -47,7 +47,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Name:</string>
+    <string>Name</string>
    </property>
   </widget>
   <widget class="QLabel" name="pswdLadel">
@@ -68,7 +68,7 @@
     <rect>
      <x>11</x>
      <y>91</y>
-     <width>114</width>
+     <width>101</width>
      <height>20</height>
     </rect>
    </property>
@@ -79,9 +79,9 @@
   <widget class="QLineEdit" name="passwordEdit_2">
    <property name="geometry">
     <rect>
-     <x>132</x>
+     <x>120</x>
      <y>91</y>
-     <width>125</width>
+     <width>110</width>
      <height>28</height>
     </rect>
    </property>
@@ -89,14 +89,37 @@
   <widget class="QPushButton" name="addButton">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>140</y>
-     <width>83</width>
+     <x>230</x>
+     <y>120</y>
+     <width>41</width>
      <height>29</height>
     </rect>
    </property>
    <property name="text">
     <string>Add</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="showPswrd">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>70</y>
+     <width>30</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/images/images/show_password_icon.png</normaloff>:/images/images/show_password_icon.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>25</width>
+     <height>25</height>
+    </size>
    </property>
   </widget>
  </widget>

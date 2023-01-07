@@ -19,6 +19,8 @@ public:
 
     void addUser();
     void openErrorMsg();
+    void showPassword();
+    void hidePassword();
 
 private:
     Ui::AddUser *ui;

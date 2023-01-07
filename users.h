@@ -27,6 +27,9 @@ private slots:
 
     void on_passwordEdit_returnPressed();
 
+    void showPassword();
+    void hidePassword();
+
 private:
     Ui::Users *ui;
 

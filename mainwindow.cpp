@@ -19,13 +19,7 @@ MainWindow::MainWindow(const int userID, QWidget *parent)
 
     connect(this,&MainWindow::nextClicked,this,&MainWindow::on_nextSong_clicked);
 
-
-
     model = new QSqlQueryModel();
-
-
-
-
 
     dbManager=DBManager::getInstance();
     //dbManager->connectToDataBase();

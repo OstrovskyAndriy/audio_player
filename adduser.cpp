@@ -8,7 +8,10 @@ AddUser::AddUser(QWidget *parent) :
     ui->setupUi(this);
 
     connect(ui->addButton,&QPushButton::clicked,this,&AddUser::addUser);
+    connect(ui->showPswrd,&QPushButton::clicked,this,&AddUser::showPassword);
+
     ui->addButton->setFocusPolicy(Qt::NoFocus);
+    ui->showPswrd->setFocusPolicy(Qt::NoFocus);
     this->setFixedSize(this->geometry().width(),this->geometry().height());
 
     error.setWindowIcon(QIcon(":/images/images/red_error_icon.png"));
@@ -16,6 +19,8 @@ AddUser::AddUser(QWidget *parent) :
 
     dbManager=DBManager::getInstance();
     //dbManager->connectToDataBase();
+
+    this->hidePassword();
 }
 
 AddUser::~AddUser()
@@ -52,4 +57,24 @@ void AddUser::openErrorMsg()
 {
     QApplication::beep();
     error.exec();
+}
+
+void AddUser::showPassword()
+{
+    connect(ui->showPswrd,&QPushButton::clicked,this,&AddUser::hidePassword);
+    disconnect(ui->showPswrd,&QPushButton::clicked,this,&AddUser::showPassword);
+    ui->showPswrd->setIcon(QIcon(":/images/images/hide_password_icon.png"));
+
+    ui->passwordEdit->setEchoMode(QLineEdit::Normal);
+    ui->passwordEdit_2->setEchoMode(QLineEdit::Normal);
+}
+
+void AddUser::hidePassword()
+{
+    connect(ui->showPswrd,&QPushButton::clicked,this,&AddUser::showPassword);
+    disconnect(ui->showPswrd,&QPushButton::clicked,this,&AddUser::hidePassword);
+    ui->showPswrd->setIcon(QIcon(":/images/images/show_password_icon.png"));
+
+    ui->passwordEdit->setEchoMode(QLineEdit::Password);
+    ui->passwordEdit_2->setEchoMode(QLineEdit::Password);
 }

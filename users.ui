@@ -30,14 +30,14 @@
   <widget class="QPushButton" name="addUser">
    <property name="geometry">
     <rect>
-     <x>18</x>
+     <x>162</x>
      <y>167</y>
-     <width>83</width>
+     <width>71</width>
      <height>29</height>
     </rect>
    </property>
    <property name="text">
-    <string>add user</string>
+    <string>Add user</string>
    </property>
   </widget>
   <widget class="QLabel" name="loginLabel">
@@ -61,7 +61,7 @@
   <widget class="QLineEdit" name="nameEdit">
    <property name="geometry">
     <rect>
-     <x>98</x>
+     <x>70</x>
      <y>85</y>
      <width>125</width>
      <height>28</height>
@@ -71,7 +71,7 @@
   <widget class="QLineEdit" name="passwordEdit">
    <property name="geometry">
     <rect>
-     <x>98</x>
+     <x>70</x>
      <y>120</y>
      <width>125</width>
      <height>28</height>
@@ -81,7 +81,7 @@
   <widget class="QLabel" name="nameLabel">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>10</x>
      <y>85</y>
      <width>40</width>
      <height>20</height>
@@ -94,7 +94,7 @@
   <widget class="QLabel" name="passwordLabel">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>10</x>
      <y>120</y>
      <width>61</width>
      <height>20</height>
@@ -102,6 +102,29 @@
    </property>
    <property name="text">
     <string>Password</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="showPswrd">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>120</y>
+     <width>30</width>
+     <height>28</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="icon">
+    <iconset resource="images.qrc">
+     <normaloff>:/images/images/show_password_icon.png</normaloff>:/images/images/show_password_icon.png</iconset>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>25</width>
+     <height>25</height>
+    </size>
    </property>
   </widget>
  </widget>

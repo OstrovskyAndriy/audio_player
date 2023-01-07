@@ -13,5 +13,7 @@
         <file>images/mute_icon.png</file>
         <file>images/red_error_icon.png</file>
         <file>images/go_backpng.png</file>
+        <file>images/hide_password_icon.png</file>
+        <file>images/show_password_icon.png</file>
     </qresource>
 </RCC>
