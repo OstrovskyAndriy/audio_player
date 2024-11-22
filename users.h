@@ -21,7 +21,6 @@ public:
 
 private slots:
 
-    void vievOfTable();
 
     void on_addUser_clicked();
 

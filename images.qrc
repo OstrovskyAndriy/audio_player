@@ -15,5 +15,7 @@
         <file>images/go_backpng.png</file>
         <file>images/hide_password_icon.png</file>
         <file>images/show_password_icon.png</file>
+        <file>images/cute_gif.gif</file>
+        <file>images/music.gif</file>
     </qresource>
 </RCC>

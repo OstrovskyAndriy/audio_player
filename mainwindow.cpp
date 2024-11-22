@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QMovie>
+
 MainWindow::MainWindow(const int userID, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -10,8 +12,6 @@ MainWindow::MainWindow(const int userID, QWidget *parent)
 
     ui->tableViewAudio->setSelectionMode(QAbstractItemView::NoSelection);
     ui->tableViewAudio->setEditTriggers(QAbstractItemView::NoEditTriggers);
-
-    this->setFixedSize(this->geometry().width(),this->geometry().height()-23);
 
     connect(ui->playAndStopSong, &QPushButton::clicked,this, &MainWindow::playMusic);
     connect(ui->muteButton,&QPushButton::clicked,this,&MainWindow::muteMusic);
@@ -108,6 +108,13 @@ void MainWindow::playMusic()
 
     connect(ui->playAndStopSong, &QPushButton::clicked, this, &MainWindow::stopMusic);
     disconnect(ui->playAndStopSong, &QPushButton::clicked, this, &MainWindow::playMusic);
+    // Встановлення GIF у QLabel
+    QMovie *movie = new QMovie(":/images/images/music.gif");
+
+    // Масштабування GIF до розміру loginLabel
+    movie->setScaledSize(ui->audioGif->size());
+    ui->audioGif->setMovie(movie);
+    movie->start(); // Запускає анімацію
 }
 
 void MainWindow::stopMusic()
@@ -119,6 +126,7 @@ void MainWindow::stopMusic()
 
     disconnect(ui->playAndStopSong, &QPushButton::clicked, this, &MainWindow::stopMusic);
     connect(ui->playAndStopSong, &QPushButton::clicked, this, &MainWindow::playMusic);
+
 }
 
 void MainWindow::muteMusic()
@@ -252,12 +260,6 @@ void MainWindow::on_deleteButton_clicked()
     ui->tableViewAudio->model()->removeRow(rowToDelete);
     vievOfTable();
 
-//    if(songIndex==rowToDelete){
-//        //player->stop();
-//        this->stopMusic();
-//        ui->songTime->setText("00:00/00:00");
-//    }
-
     if(rowToDelete==0){
         rowToDelete=songIndex=ui->tableViewAudio->model()->rowCount()-1;
     }
@@ -281,9 +283,6 @@ void MainWindow::onDurationChanged(qint64 duration)
 
 void MainWindow::onPositionChanged(qint64 progress)
 {
-    //qDebug()<<progress;
-    //qDebug()<<currentSongDuration;
-
     if(progress == currentSongDuration && progress != 0) {
         qDebug() << progress;
         qDebug() << currentSongDuration;
@@ -315,17 +314,26 @@ void MainWindow::updateDurationInfo(qint64 currentInfo)
     ui->songTime->setText(tStr);
 }
 
+
 void MainWindow::vievOfTable()
 {
-    model->setQuery("select * from audioList where user_id="+QString::number(userID)+";");
+    QSqlQueryModel* model = dbManager->getAudioListModel(userID);
+    if (!model) {
+        qDebug() << "Failed to fetch audio list model.";
+        return;
+    }
+
     ui->tableViewAudio->setModel(model);
 
+    // Налаштування вигляду таблиці
     ui->tableViewAudio->verticalHeader()->setVisible(false);
-    ui->tableViewAudio->hideColumn(0);
-    ui->tableViewAudio->hideColumn(1);
-    ui->tableViewAudio->hideColumn(3);
-    ui->tableViewAudio->setColumnWidth(2,ui->tableViewAudio->width());
+    ui->tableViewAudio->hideColumn(0); // music_id
+    ui->tableViewAudio->hideColumn(1); // path
+
+    // Налаштування автоматичного розтягування стовпців по ширині
+    ui->tableViewAudio->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
+
 
 void MainWindow::openErrorMsg()
 {

@@ -32,6 +32,8 @@ public:
     QString getAudioTableName();
     QString getUsersTableName();
 
+    int getUserIdByLoginAndPassword(const QString &login, const QString &password);
+    QSqlQueryModel *getAudioListModel(int userId);
 };
 
 #endif // DBMANAGER_H
