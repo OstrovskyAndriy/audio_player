@@ -17,5 +17,6 @@
         <file>images/show_password_icon.png</file>
         <file>images/cute_gif.gif</file>
         <file>images/music.gif</file>
+        <file>images/nota.gif</file>
     </qresource>
 </RCC>

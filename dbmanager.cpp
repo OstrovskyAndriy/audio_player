@@ -113,6 +113,23 @@ QSqlQueryModel* DBManager::getAudioListModel(int userId)
     return model;
 }
 
+bool DBManager::deleteMusicById(int musicId)
+{
+    QSqlQuery query(db);
+
+    query.prepare("DELETE FROM audioList WHERE music_id = :musicId");
+    query.bindValue(":musicId", musicId);
+
+    if (!query.exec()) {
+        qDebug() << "Failed to delete music with ID:" << musicId;
+        qDebug() << query.lastError().text();
+        return false;
+    }
+
+    return true;
+}
+
+
 
 bool DBManager::inserIntoPlaylist(QString &songUrl,QString &song_name,int ID) const
 {

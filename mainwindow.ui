@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>404</width>
+    <width>455</width>
     <height>504</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Audio Player</string>
+   <string>Мій Плеєр</string>
   </property>
   <property name="windowIcon">
    <iconset resource="images.qrc">
@@ -250,7 +250,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>404</width>
+     <width>455</width>
      <height>25</height>
     </rect>
    </property>

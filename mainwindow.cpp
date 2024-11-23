@@ -37,6 +37,14 @@ MainWindow::MainWindow(const int userID, QWidget *parent)
     ui->volumeSlider->setRange(0,100);
     ui->song_name->setText("");
     ui->songTime->setText("00:00/00:00");
+
+    movie = new QMovie(":/images/images/music.gif");
+
+    // Масштабування GIF до розміру loginLabel
+    movie->setScaledSize(ui->audioGif->size());
+    ui->audioGif->setMovie(movie);
+    movie->start();
+    movie->stop();
 }
 
 MainWindow::~MainWindow()
@@ -64,7 +72,7 @@ void MainWindow::on_Add_clicked()
         checkIsSongPresent=ui->tableViewAudio->model()->data(ui->tableViewAudio->model()->index(i,2)).toString();
 
         if(checkIsSongPresent==fileName){
-            errorMsg.setText(fileName+"\nThis file already present");
+            errorMsg.setText(fileName+"\nЦя пісня вже присутня");
             openErrorMsg();
             return;
         }
@@ -83,7 +91,7 @@ void MainWindow::on_Add_clicked()
     }
 
     if(!dbManager->inserIntoPlaylist(newFilePath,fileName,userID)){
-        errorMsg.setText("Error entering data");
+        errorMsg.setText("Сталась помилка при додаванні музики");
         openErrorMsg();
     }
 
@@ -108,12 +116,7 @@ void MainWindow::playMusic()
 
     connect(ui->playAndStopSong, &QPushButton::clicked, this, &MainWindow::stopMusic);
     disconnect(ui->playAndStopSong, &QPushButton::clicked, this, &MainWindow::playMusic);
-    // Встановлення GIF у QLabel
-    QMovie *movie = new QMovie(":/images/images/music.gif");
 
-    // Масштабування GIF до розміру loginLabel
-    movie->setScaledSize(ui->audioGif->size());
-    ui->audioGif->setMovie(movie);
     movie->start(); // Запускає анімацію
 }
 
@@ -126,7 +129,7 @@ void MainWindow::stopMusic()
 
     disconnect(ui->playAndStopSong, &QPushButton::clicked, this, &MainWindow::stopMusic);
     connect(ui->playAndStopSong, &QPushButton::clicked, this, &MainWindow::playMusic);
-
+    movie->stop();
 }
 
 void MainWindow::muteMusic()
@@ -187,7 +190,7 @@ void MainWindow::on_tableViewAudio_doubleClicked(const QModelIndex &index)
     if(!QFile(url).exists()){
         ui->tableViewAudio->model()->removeRow(songIndex);
         vievOfTable();
-        errorMsg.setText(songName+"\nNot found");
+        errorMsg.setText(songName+"\nНе знайдено");
         openErrorMsg();
     }
 
@@ -238,34 +241,41 @@ void MainWindow::on_tableViewAudio_clicked(const QModelIndex &index)
     songNameToDelete = ui->tableViewAudio->model()->data(ui->tableViewAudio->model()->index(rowToDelete,2)).toString();
 }
 
+
 void MainWindow::on_deleteButton_clicked()
 {
-    if(songIndex==rowToDelete){
-        player->stop();
-        //this->stopMusic();
-        ui->songTime->setText("00:00/00:00");
+    if (rowToDelete < 0 || rowToDelete >= ui->tableViewAudio->model()->rowCount()) {
+        errorMsg.setText("Невірно вибрана музика.");
+        openErrorMsg();
+        return;
     }
 
-    QSqlQuery query(dbManager->getDB());
+    // Отримуємо ID музики зі стовпчика 0
+    int musicId = ui->tableViewAudio->model()->data(ui->tableViewAudio->model()->index(rowToDelete, 0)).toInt();
 
-    QString deleteQuery = "DELETE FROM audioList WHERE (user_id="+QString::number(userID)+" and song_name="+"'"+songNameToDelete+"'"+");";
-    if(!query.exec(deleteQuery)){
-        qDebug()<<deleteQuery;
-        qDebug()<<"bad query to delete";
+    // Видаляємо трек із бази даних
+    if (!dbManager->deleteMusicById(musicId)) {
+        errorMsg.setText("Сталась помилка при видаленні музики.");
+        openErrorMsg();
+        return;
     }
 
-    qDebug()<<songIndex;
-    qDebug()<<rowToDelete;
-
+    // Видаляємо трек із таблиці
     ui->tableViewAudio->model()->removeRow(rowToDelete);
     vievOfTable();
 
-    if(rowToDelete==0){
-        rowToDelete=songIndex=ui->tableViewAudio->model()->rowCount()-1;
+    // Очищуємо плеєр, якщо видаляється активний трек
+    if (songIndex == rowToDelete) {
+        player->stop();
+        ui->songTime->setText("00:00/00:00");
+        songIndex = -1;
     }
 
-    if(rowToDelete==ui->tableViewAudio->model()->rowCount()){
-        rowToDelete=songIndex=-1;
+    // Оновлюємо індекси
+    if (rowToDelete == 0) {
+        rowToDelete = songIndex = ui->tableViewAudio->model()->rowCount() - 1;
+    } else if (rowToDelete >= ui->tableViewAudio->model()->rowCount()) {
+        rowToDelete = songIndex = -1;
     }
 }
 
@@ -338,7 +348,7 @@ void MainWindow::vievOfTable()
 void MainWindow::openErrorMsg()
 {
     errorMsg.setWindowIcon(QIcon(":/images/images/red_error_icon.png"));
-    errorMsg.setWindowTitle("Error");
+    errorMsg.setWindowTitle("Помилка");
     QApplication::beep();
     errorMsg.exec();
 }

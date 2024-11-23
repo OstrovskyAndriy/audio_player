@@ -1,6 +1,8 @@
 #include "adduser.h"
 #include "ui_adduser.h"
 
+#include <QMovie>
+
 AddUser::AddUser(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::AddUser)
@@ -15,12 +17,19 @@ AddUser::AddUser(QWidget *parent) :
     this->setFixedSize(this->geometry().width(),this->geometry().height());
 
     error.setWindowIcon(QIcon(":/images/images/red_error_icon.png"));
-    error.setWindowTitle("Error");
+    error.setWindowTitle("Помилка");
 
     dbManager=DBManager::getInstance();
     //dbManager->connectToDataBase();
 
     this->hidePassword();
+
+    QMovie *movie = new QMovie(":/images/images/nota.gif");
+
+    // Масштабування GIF до розміру loginLabel
+    movie->setScaledSize(ui->labelForGif->size());
+    ui->labelForGif->setMovie(movie);
+    movie->start();
 }
 
 AddUser::~AddUser()
@@ -31,13 +40,13 @@ AddUser::~AddUser()
 void AddUser::addUser()
 {
     if(ui->passwordEdit->text()!=ui->passwordEdit_2->text()){
-        error.setText("Passwords don`t match");
+        error.setText("Паролі не збігаються");
         openErrorMsg();
         return;
     }
 
     if(ui->nameEdit->text()==""||ui->passwordEdit->text()==""||ui->passwordEdit_2->text()==""){
-        error.setText("Some field is empty");
+        error.setText("Заповніть всі поля");
         openErrorMsg();
     }
 
@@ -48,7 +57,7 @@ void AddUser::addUser()
             return;
         }
 
-        error.setText("User already present");
+        error.setText("Користувач вже присутній");
         openErrorMsg();
     }
 }

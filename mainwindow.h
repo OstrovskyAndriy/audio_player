@@ -57,6 +57,7 @@ private slots:
 
     void on_goToUsers_clicked();
 
+
 private:
     Ui::MainWindow *ui;
     DBManager *dbManager;
@@ -77,5 +78,6 @@ private:
     void updateDurationInfo(qint64 currentInfo);
     qint64 currentSongDuration;
     int saveSliderPosition;
+    QMovie *movie;
 };
 #endif // MAINWINDOW_H

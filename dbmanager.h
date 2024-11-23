@@ -34,6 +34,7 @@ public:
 
     int getUserIdByLoginAndPassword(const QString &login, const QString &password);
     QSqlQueryModel *getAudioListModel(int userId);
+    bool deleteMusicById(int musicId);
 };
 
 #endif // DBMANAGER_H
