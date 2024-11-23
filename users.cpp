@@ -61,7 +61,7 @@ void Users::on_passwordEdit_returnPressed()
         QApplication::beep();
         errorMsg.setWindowIcon(QIcon(":/images/images/red_error_icon.png"));
         errorMsg.setWindowTitle("Error");
-        errorMsg.setText("Incorrect name or password \nor user not found");
+        errorMsg.setText("Дані введено не вірно або такого користувача не існує");
         errorMsg.show();
     }
 }
@@ -82,5 +82,11 @@ void Users::hidePassword()
     ui->showPswrd->setIcon(QIcon(":/images/images/show_password_icon.png"));
 
     ui->passwordEdit->setEchoMode(QLineEdit::Password);
+}
+
+
+void Users::on_loginBtn_clicked()
+{
+    this->on_passwordEdit_returnPressed();
 }
 

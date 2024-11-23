@@ -29,6 +29,8 @@ private slots:
     void showPassword();
     void hidePassword();
 
+    void on_loginBtn_clicked();
+
 private:
     Ui::Users *ui;
 

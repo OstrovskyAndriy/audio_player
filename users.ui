@@ -22,7 +22,7 @@
     <rect>
      <x>11</x>
      <y>241</y>
-     <width>271</width>
+     <width>141</width>
      <height>29</height>
     </rect>
    </property>
@@ -45,7 +45,7 @@
     </font>
    </property>
    <property name="text">
-    <string>  logo_gif</string>
+    <string>  gif</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="nameEdit">
@@ -95,6 +95,19 @@
      <width>25</width>
      <height>25</height>
     </size>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="loginBtn">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>240</y>
+     <width>121</width>
+     <height>29</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Вхід</string>
    </property>
   </widget>
  </widget>
